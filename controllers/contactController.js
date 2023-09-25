@@ -6,18 +6,18 @@ const Contact = require("../models/contactModel");
 //@access public
 const getContacts = asyncHandler(async (req, res) => {
     const contacts = await Contact.find();
-    res.status(200).json({contacts});
+    res.status(200).json({ contacts });
 });
 
 //@desc Create new Contacts
 //@route POST /api/contacts
 //@access public
 const createContact = asyncHandler(async (req, res) => {
-    const {name,email,phone} = req.body
+    const { name, email, phone } = req.body
 
-    if(!name || !email || !phone){
+    if (!name || !email || !phone) {
         res.status(400)
-        throw new Error ("All fields are mandatory")
+        throw new Error("All fields are mandatory")
     }
 
     const contact = await Contact.create({
@@ -34,9 +34,9 @@ const createContact = asyncHandler(async (req, res) => {
 //@access public
 const getContact = asyncHandler(async (req, res) => {
     const contact = await Contact.findById(req.params.id);
-    if(!contact){
+    if (!contact) {
         res.status(404);
-        throw new Error("Contact now found"); 
+        throw new Error("Contact now found");
     }
     res.status(200).json(contact);
 });
@@ -54,8 +54,8 @@ const updateContact = asyncHandler(async (req, res) => {
     const updatedContact = await Contact.findByIdAndUpdate(
         req.params.id,
         req.body,
-        {new: true}
-        );    
+        { new: true }
+    );
     res.status(200).json(updatedContact);
 });
 
@@ -71,10 +71,10 @@ const deleteContact = asyncHandler(async (req, res) => {
     }
 
     // Use the `remove` method on the `contact` object to delete it
-    await Contact.deleteOne({ _id: req.params.id });    
+    await Contact.deleteOne({ _id: req.params.id });
 
     res.status(200).json({ message: "Contact deleted successfully" });
 });
 
 
-module.exports = {getContacts, createContact, getContact, updateContact, deleteContact};
+module.exports = { getContacts, createContact, getContact, updateContact, deleteContact };
